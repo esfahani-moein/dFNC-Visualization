@@ -1,0 +1,19 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Figures folder
+figures/
+
+# MATLAB files
+*.mat
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
