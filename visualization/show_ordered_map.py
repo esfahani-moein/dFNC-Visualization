@@ -58,10 +58,10 @@ def show_ordered_map(map_data, save_path=None, range_val=None):
                 labels.append(label)
                 current_pos += size
         
-        # Instead of creating zeros matrix with max_idx, use map_data's shape
+        
         organized_data = np.zeros_like(map_data)
 
-        # Fill organized matrix while preserving negative values
+        
         for i, idx_i in enumerate(all_indices):
             for j, idx_j in enumerate(all_indices):
                 organized_data[idx_i, idx_j] = map_data[idx_i, idx_j]
