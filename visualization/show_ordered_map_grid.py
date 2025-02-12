@@ -1,8 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-import pandas as pd
-
 def show_ordered_map_grid(map_data_list, excel_path="ICNs_v2.xlsx", 
                          save_path=None, output_dir="figures",
                          save_format="pdf", dpi=600,

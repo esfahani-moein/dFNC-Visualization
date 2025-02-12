@@ -5,9 +5,13 @@ __pycache__/
 
 # Figures folder
 figures/
-
+*.png
 # MATLAB files
 *.mat
+
+~$*.xlsx    # Excel temporary files
+~$*.xls     # Excel temporary files
+~$ICNs_v2.xlsx
 
 # System files
 .DS_Store
