@@ -1,26 +1,30 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-def show_ordered_map_v2(map_data, excel_path="ICNs_v2.xlsx", save_path=None, 
-                       range_val=None, cmap='RdBu_r', font_size=14,
+
+def show_map(map_data, save_path=None, 
+                       range_val=None, cmap='jet', font_size=14,
                        show_grid=True, show_boundaries=True,
                        title_size=14, label_rotation=30, dpi=300,
                        figsize=(10, 8), boundary_width=2.0,plot_title='Network Connectivity Map'):
     
-    map_data = np.maximum(map_data, map_data.T)
     
+    current_dir = Path(__file__).parent
+    excel_path = current_dir / "cmp" / "ICNs_v2.xlsx"
+
     df = pd.read_excel(excel_path)
     T = df.values
     icn_idx = df.columns.get_loc('Label')
     
     network_info = [
-        ('Visual Network', 'VI'),
-        ('Cerebellar network', 'CB'),
-        ('Temporal network', 'TM'),
-        ('Subcortical network (SC)', 'SC'),
-        ('Sensorimotor network (SM)', 'SM'),
-        ('Higher Cognition network (HC)', 'HC')
+        ('Visual', 'VI'),
+        ('Cerebellar', 'CB'),
+        ('Temporal', 'TM'),
+        ('Subcortical', 'SC'),
+        ('Sensorimotor', 'SM'),
+        ('Higher Cognition', 'HC')  
     ]
     
     networks = {}
@@ -31,7 +35,7 @@ def show_ordered_map_v2(map_data, excel_path="ICNs_v2.xlsx", save_path=None,
     current_pos = 0
     
     for name, label in network_info:
-        idx = np.where([str(x) == name for x in T[:, icn_idx]])[0]
+        idx = np.where([name.lower() in str(x).lower() for x in T[:, icn_idx]])[0]
         if len(idx) > 0:
             networks[name] = T[idx, 0].astype(int) - 1
             size = len(networks[name])
@@ -41,21 +45,14 @@ def show_ordered_map_v2(map_data, excel_path="ICNs_v2.xlsx", save_path=None,
             current_pos += size
             boundaries.append(current_pos)
     
-    total_size = len(all_indices)
-    organized_data = np.zeros((total_size, total_size))
-    
-    for i, idx_i in enumerate(all_indices):
-        for j, idx_j in enumerate(all_indices):
-            if idx_i < map_data.shape[0] and idx_j < map_data.shape[0]:
-                organized_data[i, j] = map_data[idx_i, idx_j]
-    
+       
     plt.figure(figsize=figsize)
-    im = plt.imshow(organized_data, cmap=cmap, aspect='equal')
+    im = plt.imshow(map_data, cmap=cmap, aspect='equal')
     
     if range_val is not None:
         plt.clim(range_val[0], range_val[1])
     else:
-        max_val = np.max(np.abs(organized_data))
+        max_val = np.max(np.abs(map_data))
         plt.clim(-max_val, max_val)
     
     if show_boundaries:

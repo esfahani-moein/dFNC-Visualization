@@ -5,6 +5,7 @@ __pycache__/
 
 # Figures folder
 figures/
+
 *.png
 # MATLAB files
 *.mat

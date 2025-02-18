@@ -11,13 +11,18 @@ def getOrderedMap(map_matrix):
     tbl = pd.read_excel(excel_path)
 
     sim = np.array(map_matrix)
+    if sim.shape != (105,105):
+        raise ValueError("Input matrix must be (105,105)")
     
     # Get the order and sort it
     leafOrder = tbl['new_order'].values
-    leafOrder = np.argsort(leafOrder)+1
+    leafOrder = np.argsort(leafOrder)
     
     # Reorder the matrix using the sorted indices
     sim = sim[leafOrder][:, leafOrder]
+
+    if sim.shape != (105,105):
+        raise ValueError("Input matrix must be (105,105)")
     
     orderedMap = sim
     return orderedMap
